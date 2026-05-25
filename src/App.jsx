@@ -7,7 +7,6 @@ export default function App() {
     <TaskProvider>
       <div style={{ width: "600px", margin: "auto", paddingTop: 30 }}>
         <h1>Gestor de Tareas</h1>
-        <h1>App ejecutando correctamente</h1>
         <TaskForm />
         <TaskList />
 
