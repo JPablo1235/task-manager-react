@@ -1,0 +1,153 @@
+{
+  "id": "gestor-tareas-mini-mtp-v1",
+  "version": "2.0",
+  "name": "Gestor de Tareas - Mini MTP",
+  "url": "http://localhost:5173",
+  "tests": [
+    {
+      "id": "at01",
+      "name": "AT-01 Crear tarea y verificar estado inicial",
+      "commands": [
+        {
+          "id": "c1",
+          "comment": "Limpiar datos para hacer la prueba reproducible",
+          "command": "execute script",
+          "target": "window.localStorage.clear();",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "c2",
+          "comment": "",
+          "command": "open",
+          "target": "/",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "c3",
+          "comment": "",
+          "command": "type",
+          "target": "css=input[placeholder='Título']",
+          "targets": [],
+          "value": "Comprar mercado"
+        },
+        {
+          "id": "c4",
+          "comment": "",
+          "command": "select",
+          "target": "xpath=(//select)[1]",
+          "targets": [],
+          "value": "label=Alta"
+        },
+        {
+          "id": "c5",
+          "comment": "",
+          "command": "click",
+          "target": "xpath=//button[normalize-space()='Agregar Tarea']",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "c6",
+          "comment": "Verificar que la tarea fue creada",
+          "command": "assertText",
+          "target": "xpath=//h3[normalize-space()='Comprar mercado']",
+          "targets": [],
+          "value": "Comprar mercado"
+        },
+        {
+          "id": "c7",
+          "comment": "Verificar estado inicial",
+          "command": "assertText",
+          "target": "xpath=//h3[normalize-space()='Comprar mercado']/following-sibling::p[contains(.,'Estado:')]",
+          "targets": [],
+          "value": "📍 Estado: pendiente"
+        }
+      ]
+    },
+    {
+      "id": "at02",
+      "name": "AT-02 Completar tarea y filtrar por estado",
+      "commands": [
+        {
+          "id": "d1",
+          "comment": "Limpiar datos",
+          "command": "execute script",
+          "target": "window.localStorage.clear();",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "d2",
+          "command": "open",
+          "target": "/",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "d3",
+          "command": "type",
+          "target": "css=input[placeholder='Título']",
+          "targets": [],
+          "value": "Tarea de regresión"
+        },
+        {
+          "id": "d4",
+          "command": "click",
+          "target": "xpath=//button[normalize-space()='Agregar Tarea']",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "d5",
+          "comment": "Completar la tarea recién creada",
+          "command": "click",
+          "target": "xpath=//h3[normalize-space()='Tarea de regresión']/following-sibling::button[contains(normalize-space(),'Completar')]",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "d6",
+          "comment": "El segundo select corresponde al filtro de estado",
+          "command": "select",
+          "target": "xpath=(//select)[2]",
+          "targets": [],
+          "value": "label=Completada"
+        },
+        {
+          "id": "d7",
+          "command": "assertText",
+          "target": "xpath=//h3[normalize-space()='Tarea de regresión']",
+          "targets": [],
+          "value": "Tarea de regresión"
+        },
+        {
+          "id": "d8",
+          "comment": "La tarea completada ya no debe mostrar el botón Completar",
+          "command": "assertElementNotPresent",
+          "target": "xpath=//h3[normalize-space()='Tarea de regresión']/following-sibling::button[contains(normalize-space(),'Completar')]",
+          "targets": [],
+          "value": ""
+        }
+      ]
+    }
+  ],
+  "suites": [
+    {
+      "id": "suite1",
+      "name": "Mini MTP - Smoke y Regresión",
+      "persistSession": false,
+      "parallel": false,
+      "timeout": 30000,
+      "tests": [
+        "at01",
+        "at02"
+      ]
+    }
+  ],
+  "urls": [
+    "http://localhost:5173"
+  ],
+  "plugins": []
+}
